@@ -12,10 +12,9 @@ module Data.Primitive.StableName
   ( StableName(..)
   , makeStableName
   , eqStableName
-  , hashStableName
   ) where
 
-import GHC.Exts (StableName#, Int(I#), isTrue#, eqStableName#,makeStableName#,unsafeCoerce#,stableNameToInt#)
+import GHC.Exts (StableName#, isTrue#, eqStableName#,makeStableName#,unsafeCoerce#)
 import Control.Monad.Primitive
 
 --- | An abstract name for an object. This supports tests for equality,
@@ -39,8 +38,3 @@ makeStableName a = primitive $ \s ->
 eqStableName :: StableName s a -> StableName s b -> Bool
 eqStableName (StableName sn1) (StableName sn2) = isTrue# (eqStableName# sn1 sn2)
 {-# inline eqStableName #-}
-
--- why is this unsafe?
---hashStableName :: StableName s a -> Int
---hashStableName (StableName sn) = I# (stableNameToInt# sn)
---{-# inline hashStableName #-}
